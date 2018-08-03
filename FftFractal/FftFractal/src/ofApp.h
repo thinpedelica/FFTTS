@@ -23,11 +23,11 @@ public:
     void gotMessage(ofMessage msg);
 
 private:
-    static const size_t kRaw;
-    static const size_t kCol;
-    static const float kMinLineWidth;
-    static const float kMaxLineWidth;
-    static const float kNarrowingRatio;
+    static constexpr size_t kRaw = 4;
+    static constexpr size_t kCol = 8;
+    static constexpr float kMinLineWidth   =  2.0f;
+    static constexpr float kMaxLineWidth   = 10.0f;
+    static constexpr float kNarrowingRatio =  0.1f;
 
     void divideRect(float x, float y, float w, float h, int n);
 

@@ -1,10 +1,10 @@
 #include "ofApp.h"
 
-const size_t ofApp::kRaw = 4;
-const size_t ofApp::kCol = 8;
-const float ofApp::kMinLineWidth   =  2.0f;
-const float ofApp::kMaxLineWidth   = 10.0f;
-const float ofApp::kNarrowingRatio =  0.1f;
+constexpr size_t ofApp::kRaw;
+constexpr size_t ofApp::kCol;
+constexpr float ofApp::kMinLineWidth;
+constexpr float ofApp::kMaxLineWidth;
+constexpr float ofApp::kNarrowingRatio;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
