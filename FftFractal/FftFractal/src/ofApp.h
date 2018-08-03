@@ -32,4 +32,5 @@ private:
     void divideRect(float x, float y, float w, float h, int n);
 
     ProcessFFT pfft_;
+    ofRectangle win_cache_;
 };

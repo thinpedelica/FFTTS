@@ -15,6 +15,8 @@ void ofApp::setup() {
     pfft_.setup();
     pfft_.setNumFFTBins(kRaw * kCol);
     pfft_.setNormalize(true);
+
+    win_cache_.setSize(ofGetWidth(), ofGetHeight());
 }
 
 //--------------------------------------------------------------
@@ -26,8 +28,8 @@ void ofApp::update() {
 void ofApp::draw() {
     std::vector<float> spectrum = pfft_.getSpectrum();
 
-    float box_w = ofGetWidth() / kCol;
-    float box_h = ofGetHeight() / kRaw;
+    float box_w = win_cache_.getWidth() / kCol;
+    float box_h = win_cache_.getHeight() / kRaw;
 
     for (size_t i = 0; i < kRaw; ++i) {
         float top = box_h * i;
@@ -103,7 +105,7 @@ void ofApp::mouseExited(int x, int y) {
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h) {
-
+    win_cache_.setSize(w, h);
 }
 
 //--------------------------------------------------------------
