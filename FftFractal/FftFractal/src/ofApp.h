@@ -23,7 +23,7 @@ public:
     void gotMessage(ofMessage msg);
 
 private:
-    static constexpr size_t kRaw = 4;
+    static constexpr size_t kRow = 4;
     static constexpr size_t kCol = 8;
     static constexpr float kMinLineWidth   =  2.0f;
     static constexpr float kMaxLineWidth   = 10.0f;

@@ -1,6 +1,6 @@
 #include "ofApp.h"
 
-constexpr size_t ofApp::kRaw;
+constexpr size_t ofApp::kRow;
 constexpr size_t ofApp::kCol;
 constexpr float ofApp::kMinLineWidth;
 constexpr float ofApp::kMaxLineWidth;
@@ -13,7 +13,7 @@ void ofApp::setup() {
     ofBackground(0);
 
     pfft_.setup();
-    pfft_.setNumFFTBins(kRaw * kCol);
+    pfft_.setNumFFTBins(kRow * kCol);
     pfft_.setNormalize(true);
 
     win_cache_.setSize(ofGetWidth(), ofGetHeight());
@@ -29,9 +29,9 @@ void ofApp::draw() {
     std::vector<float> spectrum = pfft_.getSpectrum();
 
     float box_w = win_cache_.getWidth() / kCol;
-    float box_h = win_cache_.getHeight() / kRaw;
+    float box_h = win_cache_.getHeight() / kRow;
 
-    for (size_t i = 0; i < kRaw; ++i) {
+    for (size_t i = 0; i < kRow; ++i) {
         float top = box_h * i;
 
         for (size_t j = 0; j < kCol; ++j) {
