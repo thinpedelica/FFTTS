@@ -30,18 +30,21 @@ void ofApp::setup() {
         fft_item.assign(kGridCol, 0.0);
     }
 
+    vbo_list_.resize(kGridRow);
+    vertex_list_.resize(kGridNum);
+    color_list_.resize(kGridNum);
     for (int i = 0; i < kGridCol; ++i) {
         for (int j = 0; j < kGridRow; ++j) {
             float x = static_cast<float>(i) - kGridColHalf;
             float y = static_cast<float>(j) - kGridRowHalf;
-            vertex_[kGridRow * i + j].set(x, y);
-            color_[kGridRow * i + j].set(0.5, 0.8, 1.0, 0.2);
+            vertex_list_.at(kGridRow * i + j).set(x, y);
+            color_list_.at(kGridRow * i + j).set(0.5, 0.8, 1.0, 0.2);
         }
     }
 
-    for (int i = 0; i < kGridCol; ++i) {
-        vbo_[i].setVertexData(vertex_, kGridRow, GL_DYNAMIC_DRAW);
-        vbo_[i].setColorData(color_,   kGridRow, GL_DYNAMIC_DRAW);
+    for (auto& vbo : vbo_list_) {
+        vbo.setVertexData(vertex_list_.data(), kGridRow, GL_DYNAMIC_DRAW);
+        vbo.setColorData(color_list_.data(),   kGridRow, GL_DYNAMIC_DRAW);
     }
 
     point_size_ = 0.0f;
@@ -66,17 +69,19 @@ void ofApp::update() {
             float y = static_cast<float>(j) - kGridRowHalf;
             float z = fft_val * kGridHeight;
 
-            vertex_[kGridCol * i + j] = ofVec3f(x, y, z);
-            color_[kGridCol * i + j].set(0.5 + 0.5 * fft_val,
-                                         0.8,
-                                         1.0,
-                                         0.2 + 0.8 * fft_val);
+            vertex_list_.at(kGridCol * i + j) = ofVec3f(x, y, z);
+            color_list_.at(kGridCol * i + j).set(0.5 + 0.5 * fft_val,
+                                                 0.8,
+                                                 1.0,
+                                                 0.2 + 0.8 * fft_val);
         }
     }
 
-    for (int i = 0; i < kGridCol; ++i) {
-        vbo_[i].updateVertexData(&vertex_[kGridRow * i], kGridRow);
-        vbo_[i].updateColorData(&color_[kGridRow * i], kGridRow);
+    size_t list_index = 0;
+    for (auto& vbo : vbo_list_) {
+        vbo.updateVertexData(&vertex_list_.at(kGridRow * list_index), kGridRow);
+        vbo.updateColorData(&color_list_.at(kGridRow * list_index), kGridRow);
+        ++list_index;
     }
 
     point_size_ = ofMap(pfft_.getLowVal(), 0.0f, 1.0f, kPointSizeMin, kPointSizeMax);
@@ -98,11 +103,11 @@ void ofApp::draw() {
 
     glPointSize(point_size_);
     ofEnableBlendMode(OF_BLENDMODE_ADD);
-    for (int i = 0; i < kGridRow; ++i) {
+    for (auto& vbo : vbo_list_) {
         if (is_line_) {
-            vbo_[i].draw(GL_LINE_STRIP, 0, kGridCol);
+            vbo.draw(GL_LINE_STRIP, 0, kGridCol);
         } else {
-            vbo_[i].draw(GL_POINTS, 0, kGridCol);
+            vbo.draw(GL_POINTS, 0, kGridCol);
         }
     }
 

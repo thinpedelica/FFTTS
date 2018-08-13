@@ -49,9 +49,9 @@ private:
     ProcessFFT pfft_;
     vector<vector<float> > fft_history_;
 
-    ofVbo vbo_[kGridRow];
-    ofVec3f vertex_[kGridNum];
-    ofFloatColor color_[kGridNum];
+    std::vector<ofVbo> vbo_list_;
+    std::vector<ofVec3f> vertex_list_;
+    std::vector<ofFloatColor> color_list_;
     float point_size_;
     bool is_line_;
 
